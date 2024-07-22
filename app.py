@@ -4,7 +4,6 @@ import requests
 app = Flask(__name__)
 
 GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent"
-IP_CHECK_URL = "https://api.ipify.org?format=json"
 
 @app.route('/fetch', methods=['POST'])
 def fetch():
@@ -12,10 +11,6 @@ def fetch():
         return jsonify({"error": "Only POST requests are allowed"}), 405
 
     try:
-        # Check Worker's IP
-        ip_response = requests.get(IP_CHECK_URL)
-        ip_data = ip_response.json()
-        worker_ip = ip_data['ip']
 
         # Get data from the request
         request_data = request.json
@@ -37,7 +32,6 @@ def fetch():
         # Prepare response with Gemini data and Worker's IP
         response_data = {
             'geminiResponse': gemini_data,
-            'workerIP': worker_ip
         }
 
         # Return response
